@@ -1,21 +1,25 @@
 #include "avl.h"
 
-void AVL::check_balance() {
+bool AVL::check_balance() {
   // ****** TO DO **********
 }
 
-void AVL::left_left() {
+void AVL::balance_avl_tree() {
   // ****** TO DO **********
 }
 
-void AVL::left_right() {
+Node *AVL::left_left() {
   // ****** TO DO **********
 }
 
-void AVL::right_left() {
+Node *AVL::left_right() {
   // ****** TO DO **********
 }
 
-void AVL::right_right() {
+Node *AVL::right_left() {
+  // ****** TO DO **********
+}
+
+Node *AVL::right_right() {
   // ****** TO DO **********
 }

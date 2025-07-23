@@ -46,6 +46,7 @@ void Tree::print_tree(Node *root) {
   while (!q.empty()) {
     PrintVal curr_print_val = q.pop();
     Node *curr_node_ptr = curr_print_val.node;
+    int curr_depth = curr_print_val.depth;
     if (curr_node_ptr.left != nullptr) {
       q.push(curr_node_ptr.left);
     }
@@ -53,7 +54,7 @@ void Tree::print_tree(Node *root) {
       q.push(curr_node_ptr.right);
     }
     if (curr_depth != depth) {
-      curr_depth++;
+      depth++;
       std::cout << std::endl;
     }
     std::cout << curr_node_ptr.value << " (" << curr_print_val.Node.value

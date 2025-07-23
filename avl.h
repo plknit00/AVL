@@ -2,13 +2,15 @@
 
 class AVL {
 public:
-  void check_balance();
+  bool check_balance();
 
-  void left_left();
+  void balance_avl_tree();
 
-  void left_right();
+  Node *left_left();
 
-  void right_left();
+  Node *left_right();
 
-  void right_right();
+  Node *right_left();
+
+  Node *right_right();
 };
