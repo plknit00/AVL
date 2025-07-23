@@ -39,26 +39,57 @@ void Tree::insert(int value) {
 }
 
 void Tree::remove(int value) {
-  // ****** TO DO **********
+  if (root == nullptr) {
+    return;
+  }
+  Node *curr_node = root;
+  Node *parent = nullptr;
+  bool is_left_child;
+  while (curr_node != nullptr) {
+    if (curr_node->value == value) {
+      // ********* THIS SECTION IS GARBAGE, update with tree balance *********
+      if (is_left_child) {
+        parent->left = curr_node->left;
+        curr_node->left->right = curr_node->right;
+      } else {
+        parent->right = curr_node->right;
+        curr_node->right->left = curr_node->left;
+      }
+    }
+    if (value < curr_node->value) {
+      parent = curr_node;
+      is_left_child = true;
+      curr_node = curr_node->left;
+    } else if (value > curr_node->value) {
+      parent = curr_node;
+      is_left_child = false;
+      curr_node = curr_node->right;
+    }
+  }
+  curr_node = new Node({.value = value});
+  if (parent != nullptr) {
+    if (value < parent->value) {
+      parent->left = curr_node;
+    } else if (value > parent->value) {
+      parent->right = curr_node;
+    }
+  }
+  return;
 }
 
 Node *Tree::find(int value) {
   if (root == nullptr) {
     return root;
   }
-  std::stack<Node *> s;
-  s.push(root);
-  while (!s.empty()) {
-    Node *curr_node_ptr = s.top();
-    s.pop();
-    if (curr_node_ptr->value == value) {
-      return curr_node_ptr;
+  Node *curr_node = root;
+  while (curr_node != nullptr) {
+    if (curr_node->value == value) {
+      return curr_node;
     }
-    if (curr_node_ptr->left != nullptr) {
-      s.push(curr_node_ptr->left);
-    }
-    if (curr_node_ptr->right != nullptr) {
-      s.push(curr_node_ptr->right);
+    if (value < curr_node->value) {
+      curr_node = curr_node->left;
+    } else if (value > curr_node->value) {
+      curr_node = curr_node->right;
     }
   }
   return nullptr;

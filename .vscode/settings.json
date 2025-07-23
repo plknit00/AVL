@@ -4,6 +4,17 @@
     "stack": "cpp",
     "queue": "cpp",
     "__split_buffer": "cpp",
-    "deque": "cpp"
+    "deque": "cpp",
+    "__node_handle": "cpp",
+    "array": "cpp",
+    "forward_list": "cpp",
+    "map": "cpp",
+    "set": "cpp",
+    "string": "cpp",
+    "string_view": "cpp",
+    "unordered_map": "cpp",
+    "vector": "cpp",
+    "list": "cpp",
+    "unordered_set": "cpp"
   }
 }
