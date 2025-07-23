@@ -1,23 +1,29 @@
-#using namespace Tree {
+#pragma once
+
+namespace tree {
+
+struct Node {
+  int value;
+  Node *left = nullptr;
+  Node *right = nullptr;
+};
 
 class Tree {
 private:
+  Node *root = nullptr;
+
 public:
-  struct Node {
-    int value;
-    Node *left_child;
-    Node *right_child;
-  };
+  bool empty();
 
-  void insert();
+  void insert(int value);
 
-  void deleete();
+  void remove(int value);
 
-  // dfs algorithm
-  Node *find(Node *root, int value);
+  // dfs algorithm BAD
+  Node *find(int value);
 
   // bfs algorithm
-  void print_tree(Node *root);
+  void print_tree();
 };
-}
-;
+
+}; // namespace tree

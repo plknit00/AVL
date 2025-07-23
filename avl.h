@@ -1,4 +1,6 @@
+#pragma once
 
+#include "tree.h"
 
 class AVL {
 public:
@@ -6,11 +8,11 @@ public:
 
   void balance_avl_tree();
 
-  Node *left_left();
+  tree::Node *left_left();
 
-  Node *left_right();
+  tree::Node *left_right();
 
-  Node *right_left();
+  tree::Node *right_left();
 
-  Node *right_right();
+  tree::Node *right_right();
 };
