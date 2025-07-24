@@ -11,6 +11,8 @@ bool Tree::empty() {
   return true;
 }
 
+Node *Tree::get_root() { return root; }
+
 void Tree::insert(int value) {
   if (root == nullptr) {
     root = new Node({.value = value});
@@ -21,9 +23,11 @@ void Tree::insert(int value) {
   while (curr_node != nullptr) {
     if (value < curr_node->value) {
       parent = curr_node;
+      curr_node->balance_factor++;
       curr_node = curr_node->left;
     } else if (value > curr_node->value) {
       parent = curr_node;
+      curr_node->balance_factor++;
       curr_node = curr_node->right;
     }
   }
@@ -128,5 +132,4 @@ void Tree::print_tree() {
               << ") ";
   }
 }
-
 }; // namespace tree

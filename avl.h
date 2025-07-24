@@ -4,16 +4,18 @@
 
 class AVL {
 public:
-  // check if AVL tree is balanced
-  bool is_balanced(tree::Node *root);
+  static bool is_balanced(tree::Node *root);
 
-  void balance_avl_tree(tree::Node *root);
+  static void balance_avl_tree(tree::Node *root);
 
-  tree::Node *left_left(tree::Node *root);
+  static void *left_left(tree::Node *root);
 
-  tree::Node *left_right(tree::Node *root);
+  static void *left_right(tree::Node *root);
 
-  tree::Node *right_left(tree::Node *root);
+  static void *right_left(tree::Node *root);
 
-  tree::Node *right_right(tree::Node *root);
+  static void *right_right(tree::Node *root);
+
+  // add a value to the tree, if it is not duplicate
+  static void insert(tree::Node *root, int value);
 };
