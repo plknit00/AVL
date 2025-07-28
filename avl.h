@@ -6,8 +6,6 @@ class AVL {
 public:
   static bool is_balanced(tree::Node *root);
 
-  static void balance_avl_tree(tree::Node *root);
-
   static void *left_left(tree::Node *root);
 
   static void *left_right(tree::Node *root);

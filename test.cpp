@@ -87,9 +87,28 @@ TEST(AVLInsertTest2, BasicAssertions) {
   ASSERT_TRUE(AVL::is_balanced(root));
 }
 
-// // Test print.
-// TEST(PrintTreeTest, BasicAssertions) {
-//   tree::Tree tree;
-//   tree.insert(5);
-//   ASSERT_EQ(tree.print_tree(), "5 (0) ");
-// }
+// Test print.
+TEST(PrintTreeTest, BasicAssertions) {
+  tree::Tree tree;
+  tree.insert(5);
+  ASSERT_EQ(tree.print_tree(true), "5 (0,0) ");
+}
+
+// Test print.
+TEST(PrintTreeTest2, BasicAssertions) {
+  tree::Tree tree;
+  tree.insert(5);
+  tree.insert(3);
+  tree.insert(6);
+  ASSERT_EQ(tree.print_tree(true), "5 (0,0) \n3 (5,0) 6 (5,0) ");
+}
+
+// Test print.
+TEST(PrintTreeTest3, BasicAssertions) {
+  tree::Tree tree;
+  tree::Node *root = tree.get_root();
+  AVL::insert(root, 5);
+  AVL::insert(root, 3);
+  AVL::insert(root, 6);
+  ASSERT_EQ(tree.print_tree(true), "5 (0,0) \n3 (5,0) 6 (5,0) ");
+}

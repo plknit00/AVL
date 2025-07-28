@@ -25,15 +25,10 @@ bool AVL::is_balanced(tree::Node *root) {
   }
 }
 
-void AVL::balance_avl_tree(tree::Node *root) {
-  // ****** TO DO **********
-}
-
 void *AVL::left_left(tree::Node *root) {
   tree::Node *new_root = root->left;
   root->left = new_root->right;
   new_root->right = root;
-  // return new_root;
 }
 
 void *AVL::left_right(tree::Node *root) {
@@ -44,7 +39,6 @@ void *AVL::left_right(tree::Node *root) {
   new_root->left = a;
   a->right = temp;
   new_root->right = root;
-  // return new_root;
 }
 
 void *AVL::right_left(tree::Node *root) {
@@ -55,14 +49,12 @@ void *AVL::right_left(tree::Node *root) {
   new_root->right = a;
   a->left = temp;
   new_root->left = root;
-  // return new_root;
 }
 
 void *AVL::right_right(tree::Node *root) {
   tree::Node *new_root = root->right;
   root->right = new_root->left;
   new_root->left = root;
-  // return new_root;
 }
 
 void AVL::insert(tree::Node *root, int value) {
@@ -73,6 +65,8 @@ void AVL::insert(tree::Node *root, int value) {
   tree::Node *curr_node = root;
   tree::Node *parent = nullptr;
   while (curr_node != nullptr) {
+    curr_node->height += 1;
+    // check balance factor/update it, rebalance
     if (value < curr_node->value) {
       parent = curr_node;
       curr_node = curr_node->left;

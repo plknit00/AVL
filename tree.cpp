@@ -21,13 +21,23 @@ void Tree::insert(int value) {
   Node *curr_node = root;
   Node *parent = nullptr;
   while (curr_node != nullptr) {
+    Node *left = curr_node->left;
+    Node *right = curr_node->right;
+    if ((left != nullptr) && (right != nullptr)) {
+      curr_node->balance_factor += left->balance_factor;
+      curr_node->balance_factor -= right->balance_factor;
+    }
+    if ((left == nullptr) && (right != nullptr)) {
+      curr_node->balance_factor = -1;
+    }
+    if ((left != nullptr) && (right == nullptr)) {
+      curr_node->balance_factor = 1;
+    }
     if (value < curr_node->value) {
       parent = curr_node;
-      curr_node->balance_factor++;
       curr_node = curr_node->left;
     } else if (value > curr_node->value) {
       parent = curr_node;
-      curr_node->balance_factor++;
       curr_node = curr_node->right;
     }
   }
@@ -51,7 +61,7 @@ void Tree::remove(int value) {
   bool is_left_child;
   while (curr_node != nullptr) {
     if (curr_node->value == value) {
-      // ********* THIS SECTION IS GARBAGE, update with tree balance *********
+      // ********* POTENTIAL LOGIC ERROR, update with tree balance *********
       if (is_left_child) {
         parent->left = curr_node->left;
         curr_node->left->right = curr_node->right;
@@ -99,15 +109,19 @@ Node *Tree::find(int value) {
   return nullptr;
 }
 
-void Tree::print_tree() {
+std::string Tree::print_tree(bool return_string) {
+  std::string result;
   struct PrintVal {
     Node *node;
     int depth;
     int parent_value;
   };
   if (root == nullptr) {
-    std::cout << "Empty Tree" << std::endl;
-    return;
+    if (!return_string) {
+      std::cout << "Empty Tree" << std::endl;
+    }
+    result = "empty";
+    return result;
   }
   PrintVal pv_root = {.node = root, .depth = 0, .parent_value = 0};
   std::queue<PrintVal> q;
@@ -126,10 +140,22 @@ void Tree::print_tree() {
     }
     if (curr_depth != depth) {
       depth++;
-      std::cout << std::endl;
+      if (return_string) {
+        result = result + "\n";
+      } else {
+        std::cout << std::endl;
+      }
     }
-    std::cout << curr_node_ptr->value << " (" << curr_print_val.parent_value
-              << ") ";
+    if (return_string) {
+      result = result + std::to_string(curr_node_ptr->value) + " (" +
+               std::to_string(curr_print_val.parent_value) + "," +
+               std::to_string(curr_print_val.node->balance_factor) + ") ";
+    } else {
+      std::cout << curr_node_ptr->value << " (" << curr_print_val.parent_value
+                << ") ";
+    }
   }
+  return result;
 }
+
 }; // namespace tree
