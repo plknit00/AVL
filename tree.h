@@ -9,7 +9,6 @@ struct Node {
   Node *left = nullptr;
   Node *right = nullptr;
   int height = 0;
-  int balance_factor = 0;
 };
 
 class Tree {

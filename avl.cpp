@@ -12,9 +12,10 @@ bool AVL::is_balanced(tree::Node *root) {
   while (!q.empty()) {
     tree::Node *curr_node = q.front();
     q.pop();
-    if ((curr_node->balance_factor > 1) || (curr_node->balance_factor < -1)) {
-      return false;
-    }
+    // if ((curr_node->balance_factor > 1) || (curr_node->balance_factor < -1))
+    // {
+    //   return false;
+    // }
     if (curr_node->left != nullptr) {
       q.push(curr_node->left);
     }
@@ -62,46 +63,36 @@ void AVL::insert(tree::Node *root, int value) {
     root = new tree::Node({.value = value});
     return;
   }
-  tree::Node *curr_node = root;
-  tree::Node *parent = nullptr;
-  while (curr_node != nullptr) {
-    curr_node->height += 1;
-    // check balance factor/update it, rebalance
-    if (value < curr_node->value) {
-      parent = curr_node;
-      curr_node = curr_node->left;
-    } else if (value > curr_node->value) {
-      parent = curr_node;
-      curr_node = curr_node->right;
-    }
+  if (value < root->value) {
+    insert(root->left, value);
+  } else if (value > root->value) {
+    insert(root->right, value);
+  } else {
+    // do nothing if value = root value
+    return;
   }
-  curr_node = new tree::Node({.value = value});
-  if (parent != nullptr) {
-    if (value < parent->value) {
-      parent->left = curr_node;
-    } else if (value > parent->value) {
-      parent->right = curr_node;
-    }
+  root->height++;
+  int left_height = 0;
+  int right_height = 0;
+  if (root->left != nullptr) {
+    left_height = root->left->height;
   }
-  int left_bf = curr_node->left->balance_factor;
-  int right_bf = curr_node->right->balance_factor;
-  curr_node->balance_factor = left_bf - right_bf;
-  int curr_bf = curr_node->balance_factor;
-  if (curr_bf > 1) {
-    // check this condition
-    if (curr_bf > curr_node->left->balance_factor) {
-      left_left(curr_node);
+  if (root->right != nullptr) {
+    right_height = root->right->height;
+  }
+  int balance_factor = left_height - right_height;
+  if (balance_factor > 1) {
+    if (value < root->left->value) {
+      left_left(root);
     } else {
-      left_right(curr_node);
+      left_right(root);
     }
   }
-  if (curr_bf < -1) {
-    // check this condition
-    if (curr_bf > curr_node->right->balance_factor) {
-      right_right(curr_node);
+  if (balance_factor < -1) {
+    if (value > root->right->value) {
+      right_right(root);
     } else {
-      right_left(curr_node);
+      right_left(root);
     }
   }
-  return;
 }
