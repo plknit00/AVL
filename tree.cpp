@@ -13,50 +13,84 @@ bool Tree::empty() {
 
 Node *Tree::get_root() { return root; }
 
-void Tree::insert(int value) {
+int Tree::get_height(Node *node) {
+  int left_height = 0;
+  int right_height = 0;
+  if (node->left != nullptr) {
+    left_height = node->left->height;
+  }
+  if (node->right != nullptr) {
+    right_height = node->right->height;
+  }
+  return std::max(left_height, right_height);
+}
+
+int Tree::get_balance_factor(Node *node) {
+  int left_height = 0;
+  int right_height = 0;
+  if (node->left != nullptr) {
+    left_height = node->left->height;
+  }
+  if (node->right != nullptr) {
+    right_height = node->right->height;
+  }
+  return left_height - right_height;
+}
+
+Node *Tree::find(int value) {
   if (root == nullptr) {
-    root = new Node({.value = value});
-    return;
+    return root;
   }
   Node *curr_node = root;
-  Node *parent = nullptr;
   while (curr_node != nullptr) {
-    Node *left = curr_node->left;
-    Node *right = curr_node->right;
-    if ((left != nullptr) && (right != nullptr)) {
-      curr_node->balance_factor += left->balance_factor;
-      curr_node->balance_factor -= right->balance_factor;
-    }
-    if ((left == nullptr) && (right != nullptr)) {
-      curr_node->balance_factor = -1;
-    }
-    if ((left != nullptr) && (right == nullptr)) {
-      curr_node->balance_factor = 1;
+    if (curr_node->value == value) {
+      return curr_node;
     }
     if (value < curr_node->value) {
-      parent = curr_node;
       curr_node = curr_node->left;
     } else if (value > curr_node->value) {
-      parent = curr_node;
       curr_node = curr_node->right;
     }
   }
-  curr_node = new Node({.value = value});
-  if (parent != nullptr) {
-    if (value < parent->value) {
-      parent->left = curr_node;
-    } else if (value > parent->value) {
-      parent->right = curr_node;
+  return nullptr;
+}
+
+Node *Tree::insert(Node *root, int value) {
+  if (root == nullptr) {
+    return new Node({.value = value});
+  }
+  if (value < root->value) {
+    root->left = insert(root->left, value);
+  } else if (value > root->value) {
+    root->right = insert(root->right, value);
+  } else {
+    // do nothing if value = root value
+    // does this have loop potential ???????
+    return root;
+  }
+  root->height = 1 + get_height(root);
+  int balance_factor = get_balance_factor(root);
+  if (balance_factor > 1) {
+    if (value < root->left->value) {
+      left_left(root);
+    } else {
+      left_right(root);
     }
   }
-  return;
+  if (balance_factor < -1) {
+    if (value > root->right->value) {
+      right_right(root);
+    } else {
+      right_left(root);
+    }
+  }
 }
 
 void Tree::remove(int value) {
   if (root == nullptr) {
     return;
   }
-  Node *curr_node = root;
+  /*Node *curr_node = root;
   Node *parent = nullptr;
   bool is_left_child;
   while (curr_node != nullptr) {
@@ -88,25 +122,7 @@ void Tree::remove(int value) {
       parent->right = curr_node;
     }
   }
-  return;
-}
-
-Node *Tree::find(int value) {
-  if (root == nullptr) {
-    return root;
-  }
-  Node *curr_node = root;
-  while (curr_node != nullptr) {
-    if (curr_node->value == value) {
-      return curr_node;
-    }
-    if (value < curr_node->value) {
-      curr_node = curr_node->left;
-    } else if (value > curr_node->value) {
-      curr_node = curr_node->right;
-    }
-  }
-  return nullptr;
+  return;*/
 }
 
 std::string Tree::print_tree(bool return_string) {
@@ -147,9 +163,10 @@ std::string Tree::print_tree(bool return_string) {
       }
     }
     if (return_string) {
+      int bf = get_balance_factor(curr_print_val.node);
       result = result + std::to_string(curr_node_ptr->value) + " (" +
                std::to_string(curr_print_val.parent_value) + "," +
-               std::to_string(curr_print_val.node->balance_factor) + ") ";
+               std::to_string(bf) + ") ";
     } else {
       std::cout << curr_node_ptr->value << " (" << curr_print_val.parent_value
                 << ") ";

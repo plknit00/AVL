@@ -1,7 +1,6 @@
 #include <iostream>
 #include <string>
 
-#include "avl.h"
 #include "tree.h"
 
 int main() { return 0; }
