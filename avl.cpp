@@ -2,28 +2,61 @@
 #include "tree.h"
 #include <queue>
 
+bool AVL::is_avl(tree::Node *root) {
+  if (is_balanced(root) && is_sorted(root)) {
+    return true;
+  }
+  return false;
+}
+
 bool AVL::is_balanced(tree::Node *root) {
   if (root == nullptr) {
     return true;
   }
   std::queue<tree::Node *> q;
   q.push(root);
-  int depth = 0;
   while (!q.empty()) {
     tree::Node *curr_node = q.front();
     q.pop();
-    // if ((curr_node->balance_factor > 1) || (curr_node->balance_factor < -1))
-    // {
-    //   return false;
-    // }
-    if (curr_node->left != nullptr) {
-      q.push(curr_node->left);
+    tree::Node *left = curr_node->left;
+    tree::Node *right = curr_node->right;
+    int left_height = 0;
+    int right_height = 0;
+    if (left != nullptr) {
+      left_height = left->height;
+      q.push(left);
     }
-    if (curr_node->right != nullptr) {
-      q.push(curr_node);
+    if (left != nullptr) {
+      left_height = left->height;
+      q.push(left);
     }
+    int balance_factor = left_height - right_height;
+    if ((balance_factor < -1) || (balance_factor > 1)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool AVL::is_sorted(tree::Node *root) {
+  if (root == nullptr) {
     return true;
   }
+  tree::Node *left = root->left;
+  tree::Node *right = root->right;
+  if (left != nullptr) {
+    if (root->value < left->value) {
+      return false;
+    }
+    is_sorted(left);
+  }
+  if (right != nullptr) {
+    if (root->value > right->value) {
+      return false;
+    }
+    is_sorted(right);
+  }
+  return true;
 }
 
 void *AVL::left_left(tree::Node *root) {

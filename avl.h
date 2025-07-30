@@ -4,7 +4,11 @@
 
 class AVL {
 public:
+  static bool is_avl(tree::Node *root);
+
   static bool is_balanced(tree::Node *root);
+
+  static bool is_sorted(tree::Node *root);
 
   static void *left_left(tree::Node *root);
 
