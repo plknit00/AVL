@@ -55,6 +55,8 @@ Node *Tree::find(int value) {
   return nullptr;
 }
 
+void Tree::insert(int value) { root = insert(root, value); }
+
 Node *Tree::insert(Node *root, int value) {
   if (root == nullptr) {
     return new Node({.value = value});
@@ -64,26 +66,27 @@ Node *Tree::insert(Node *root, int value) {
   } else if (value > root->value) {
     root->right = insert(root->right, value);
   } else {
-    // do nothing if value = root value
-    // does this have loop potential ???????
+    // have main insert return bool of successful insert or not
     return root;
   }
+  // heigh t is yuc
   root->height = 1 + get_height(root);
   int balance_factor = get_balance_factor(root);
   if (balance_factor > 1) {
     if (value < root->left->value) {
-      left_left(root);
+      return left_left(root);
     } else {
-      left_right(root);
+      return left_right(root);
     }
   }
   if (balance_factor < -1) {
     if (value > root->right->value) {
-      right_right(root);
+      return right_right(root);
     } else {
-      right_left(root);
+      return right_left(root);
     }
   }
+  return root;
 }
 
 void Tree::remove(int value) {
@@ -173,6 +176,99 @@ std::string Tree::print_tree(bool return_string) {
     }
   }
   return result;
+}
+
+bool Tree::is_avl() {
+  if (is_balanced() && is_sorted(root)) {
+    return true;
+  }
+  return false;
+}
+
+bool Tree::is_balanced() {
+  if (root == nullptr) {
+    return true;
+  }
+  std::queue<tree::Node *> q;
+  q.push(root);
+  while (!q.empty()) {
+    tree::Node *curr_node = q.front();
+    q.pop();
+    tree::Node *left = curr_node->left;
+    tree::Node *right = curr_node->right;
+    int left_height = 0;
+    int right_height = 0;
+    if (left != nullptr) {
+      left_height = left->height;
+      q.push(left);
+    }
+    if (left != nullptr) {
+      left_height = left->height;
+      q.push(left);
+    }
+    int balance_factor = left_height - right_height;
+    if ((balance_factor < -1) || (balance_factor > 1)) {
+      return false;
+    }
+  }
+  return true;
+}
+
+bool Tree::is_sorted(Node *root) {
+  if (root == nullptr) {
+    return true;
+  }
+  Node *left = root->left;
+  Node *right = root->right;
+  if (left != nullptr) {
+    if (root->value < left->value) {
+      return false;
+    }
+    is_sorted(left);
+  }
+  if (right != nullptr) {
+    if (root->value > right->value) {
+      return false;
+    }
+    is_sorted(right);
+  }
+  return true;
+}
+
+Node *Tree::left_left(Node *root) {
+  Node *new_root = root->left;
+  root->left = new_root->right;
+  new_root->right = root;
+  return new_root;
+}
+
+Node *Tree::left_right(Node *root) {
+  Node *new_root = root->left->right;
+  Node *a = root->left;
+  root->left = new_root->right;
+  Node *temp = new_root->left;
+  new_root->left = a;
+  a->right = temp;
+  new_root->right = root;
+  return new_root;
+}
+
+Node *Tree::right_left(Node *root) {
+  Node *new_root = root->right->left;
+  Node *a = root->right;
+  root->right = new_root->left;
+  Node *temp = new_root->right;
+  new_root->right = a;
+  a->left = temp;
+  new_root->left = root;
+  return new_root;
+}
+
+Node *Tree::right_right(Node *root) {
+  Node *new_root = root->right;
+  root->right = new_root->left;
+  new_root->left = root;
+  return new_root;
 }
 
 }; // namespace tree

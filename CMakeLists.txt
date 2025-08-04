@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(AVL VERSION 0.1.0 LANGUAGES C CXX)
-add_executable(AVL main.cpp tree.cpp avl.cpp)
+add_executable(AVL main.cpp tree.cpp)
 
 # GoogleTest requires at least C++17
 set(CMAKE_CXX_STANDARD 17)
@@ -23,7 +23,6 @@ add_executable(
   test_tree
   test.cpp
   tree.cpp
-  avl.cpp
 )
 
 target_link_libraries(
