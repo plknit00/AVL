@@ -123,10 +123,35 @@ TEST(AVLPrintInsertTest, BasicAssertions) {
   tree.insert(7);
   tree.insert(6);
   tree.insert(5);
-  // tree.insert(4);
-  // tree.insert(3);
-  // tree.insert(2);
-  // tree.insert(1);
+  tree.insert(4);
+  tree.insert(3);
+  tree.insert(2);
+  tree.insert(1);
   ASSERT_EQ(tree.print_tree(true),
             "4 (0,0) \n2 (4,0) 6 (4,0) \n1 (2,0) 3 (2,0) 5 (6,0) 7 (6,0) ");
 }
+
+// Test AVL insert.
+TEST(AVLPrintInsertTest2, BasicAssertions) {
+  tree::Tree tree;
+  tree.insert(44);
+  tree.insert(17);
+  tree.insert(62);
+  tree.insert(32);
+  tree.insert(50);
+  tree.insert(78);
+  tree.insert(48);
+  tree.insert(54);
+  tree.insert(70);
+  tree.insert(88);
+  ASSERT_EQ(tree.print_tree(true),
+            "44 (0,-1) \n17 (44,-1) 62 (44,0) \n32 (17,0) 50 (62,0) 78 (62,0) "
+            "\n48 (50,0) 54 (50,0) 70 (78,0) 88 (78,0) ");
+  ASSERT_TRUE(tree.remove(32));
+  ASSERT_EQ(tree.print_tree(true),
+            "62 (0,1) \n44 (62,1) 78 (62,0) \n17 (44,0) 50 (44,0) 70 (78,0) 88 "
+            "(78,0) \n48 (50,0) 54 (50,0) ");
+}
+
+// Test AVL insert.
+// TEST(AVLPrintRemoveTest, BasicAssertions) { tree::Tree tree; }

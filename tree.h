@@ -9,7 +9,7 @@ struct Node {
   int value = 0;
   Node *left = nullptr;
   Node *right = nullptr;
-  int height = 0;
+  int height = 1;
 };
 
 class Tree {
@@ -26,10 +26,10 @@ public:
   Node *find(int value);
 
   // add a value to the tree, if it is not duplicate
-  void insert(int value);
+  bool insert(int value);
 
   // remove a value from the tree, if it exists
-  void remove(int value);
+  bool remove(int value);
 
   // bfs algorithm, prints tree with parent node, right/left child,
   // and balance factor specified
@@ -41,20 +41,22 @@ public:
 
   bool is_balanced();
 
-  bool is_sorted(Node *root);
+  bool is_sorted(Node *node);
 
 private:
   Node *root = nullptr;
 
-  Node *left_left(Node *root);
+  Node *left_left(Node *node);
 
-  Node *left_right(Node *root);
+  Node *left_right(Node *node);
 
-  Node *right_left(Node *root);
+  Node *right_left(Node *node);
 
-  Node *right_right(Node *root);
+  Node *right_right(Node *node);
 
-  Node *insert(Node *root, int value);
+  Node *insert(Node *node, int value);
+
+  Node *remove(Node *node, int value);
 };
 
 }; // namespace tree

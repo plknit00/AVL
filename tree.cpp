@@ -22,7 +22,7 @@ int Tree::get_height(Node *node) {
   if (node->right != nullptr) {
     right_height = node->right->height;
   }
-  return std::max(left_height, right_height);
+  return 1 + std::max(left_height, right_height);
 }
 
 int Tree::get_balance_factor(Node *node) {
@@ -55,77 +55,86 @@ Node *Tree::find(int value) {
   return nullptr;
 }
 
-void Tree::insert(int value) { root = insert(root, value); }
+bool Tree::insert(int value) {
+  Node *result = insert(root, value);
+  if (result == nullptr) {
+    return false;
+  }
+  root = result;
+  return true;
+}
 
-Node *Tree::insert(Node *root, int value) {
-  if (root == nullptr) {
+Node *Tree::insert(Node *node, int value) {
+  if (node == nullptr) {
     return new Node({.value = value});
   }
-  if (value < root->value) {
-    root->left = insert(root->left, value);
-  } else if (value > root->value) {
-    root->right = insert(root->right, value);
+  if (value < node->value) {
+    node->left = insert(node->left, value);
+  } else if (value > node->value) {
+    node->right = insert(node->right, value);
   } else {
-    // have main insert return bool of successful insert or not
-    return root;
+    return nullptr;
   }
-  // heigh t is yuc
-  root->height = 1 + get_height(root);
-  int balance_factor = get_balance_factor(root);
+  node->height = get_height(node);
+  int balance_factor = get_balance_factor(node);
   if (balance_factor > 1) {
-    if (value < root->left->value) {
-      return left_left(root);
+    if (value < node->left->value) {
+      return left_left(node);
     } else {
-      return left_right(root);
+      return left_right(node);
     }
   }
   if (balance_factor < -1) {
-    if (value > root->right->value) {
-      return right_right(root);
+    if (value > node->right->value) {
+      return right_right(node);
     } else {
-      return right_left(root);
+      return right_left(node);
     }
   }
-  return root;
+  return node;
 }
 
-void Tree::remove(int value) {
+bool Tree::remove(int value) {
+  Node *result = insert(root, value);
   if (root == nullptr) {
-    return;
+    return false;
   }
-  /*Node *curr_node = root;
-  Node *parent = nullptr;
-  bool is_left_child;
-  while (curr_node != nullptr) {
-    if (curr_node->value == value) {
-      // ********* POTENTIAL LOGIC ERROR, update with tree balance *********
-      if (is_left_child) {
-        parent->left = curr_node->left;
-        curr_node->left->right = curr_node->right;
-      } else {
-        parent->right = curr_node->right;
-        curr_node->right->left = curr_node->left;
-      }
-    }
-    if (value < curr_node->value) {
-      parent = curr_node;
-      is_left_child = true;
-      curr_node = curr_node->left;
-    } else if (value > curr_node->value) {
-      parent = curr_node;
-      is_left_child = false;
-      curr_node = curr_node->right;
-    }
+  root = result;
+  return true;
+}
+
+Node *Tree::remove(Node *node, int value) {
+  if (node == nullptr) {
+    return node;
   }
-  curr_node = new Node({.value = value});
-  if (parent != nullptr) {
-    if (value < parent->value) {
-      parent->left = curr_node;
-    } else if (value > parent->value) {
-      parent->right = curr_node;
+  if (node == nullptr) {
+    return new Node({.value = value});
+  }
+  if (value < node->value) {
+    node->left = remove(node->left, value);
+  } else if (value > node->value) {
+    node->right = remove(node->right, value);
+  } else {
+    // make sure parent pointer to this is null? and height dec
+    delete node;
+  }
+  node->height = get_height(node);
+  int balance_factor = get_balance_factor(node);
+  if (balance_factor > 1) {
+    if (value < node->left->value) {
+      return right_left(node);
+    } else {
+      return right_right(node);
     }
   }
-  return;*/
+  if (balance_factor < -1) {
+    if (value > node->right->value) {
+      return left_right(node);
+    } else {
+      return left_left(node);
+    }
+  }
+  return node;
 }
 
 std::string Tree::print_tree(bool return_string) {
@@ -202,9 +211,9 @@ bool Tree::is_balanced() {
       left_height = left->height;
       q.push(left);
     }
-    if (left != nullptr) {
-      left_height = left->height;
-      q.push(left);
+    if (right != nullptr) {
+      right_height = right->height;
+      q.push(right);
     }
     int balance_factor = left_height - right_height;
     if ((balance_factor < -1) || (balance_factor > 1)) {
@@ -235,39 +244,47 @@ bool Tree::is_sorted(Node *root) {
   return true;
 }
 
-Node *Tree::left_left(Node *root) {
-  Node *new_root = root->left;
-  root->left = new_root->right;
-  new_root->right = root;
+Node *Tree::left_left(Node *old_root) {
+  Node *new_root = old_root->left;
+  old_root->left = new_root->right;
+  new_root->right = old_root;
+  old_root->height = get_height(old_root);
+  new_root->height = get_height(new_root);
   return new_root;
 }
 
-Node *Tree::left_right(Node *root) {
-  Node *new_root = root->left->right;
-  Node *a = root->left;
-  root->left = new_root->right;
+Node *Tree::left_right(Node *old_root) {
+  Node *new_root = old_root->left->right;
+  Node *a = old_root->left;
+  old_root->left = new_root->right;
   Node *temp = new_root->left;
   new_root->left = a;
   a->right = temp;
-  new_root->right = root;
+  new_root->right = old_root;
+  old_root->height = get_height(old_root);
+  new_root->height = get_height(new_root);
   return new_root;
 }
 
-Node *Tree::right_left(Node *root) {
-  Node *new_root = root->right->left;
-  Node *a = root->right;
-  root->right = new_root->left;
+Node *Tree::right_left(Node *old_root) {
+  Node *new_root = old_root->right->left;
+  Node *a = old_root->right;
+  old_root->right = new_root->left;
   Node *temp = new_root->right;
   new_root->right = a;
   a->left = temp;
-  new_root->left = root;
+  new_root->left = old_root;
+  old_root->height = get_height(old_root);
+  new_root->height = get_height(new_root);
   return new_root;
 }
 
-Node *Tree::right_right(Node *root) {
-  Node *new_root = root->right;
-  root->right = new_root->left;
-  new_root->left = root;
+Node *Tree::right_right(Node *old_root) {
+  Node *new_root = old_root->right;
+  old_root->right = new_root->left;
+  new_root->left = old_root;
+  old_root->height = get_height(old_root);
+  new_root->height = get_height(new_root);
   return new_root;
 }
 

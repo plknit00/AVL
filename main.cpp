@@ -3,7 +3,13 @@
 
 #include "tree.h"
 
-int main() { return 0; }
+int main() {
+  tree::Tree tree;
+  tree.insert(7);
+  tree.insert(6);
+  tree.insert(5);
+  return 0;
+}
 
 // for test file
 
