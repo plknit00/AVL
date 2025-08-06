@@ -262,6 +262,7 @@ Node *Tree::left_right(Node *old_root) {
   a->right = temp;
   new_root->right = old_root;
   old_root->height = get_height(old_root);
+  a->height = get_height(a);
   new_root->height = get_height(new_root);
   return new_root;
 }
@@ -275,6 +276,7 @@ Node *Tree::right_left(Node *old_root) {
   a->left = temp;
   new_root->left = old_root;
   old_root->height = get_height(old_root);
+  a->height = get_height(a);
   new_root->height = get_height(new_root);
   return new_root;
 }

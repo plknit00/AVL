@@ -1,138 +1,200 @@
 #include "tree.h"
 #include <gtest/gtest.h>
 
-// // Demonstrate some basic assertions.
-// TEST(HelloTest, BasicAssertions) {
-//   // Expect two strings not to be equal.
-//   EXPECT_STRNE("hello", "world");
-//   // Expect equality.
-//   EXPECT_EQ(7 * 6, 42);
-// }
+// Demonstrate some basic assertions.
+TEST(BasicAssertions, HelloTest) {
+  // Expect two strings not to be equal.
+  EXPECT_STRNE("hello", "world");
+  // Expect equality.
+  EXPECT_EQ(7 * 6, 42);
+}
 
-// // Test tree insert.
-// TEST(InsertTreeTest, BasicAssertions) {
-//   tree::Tree tree;
-//   tree::Node *root = tree.get_root();
-//   ASSERT_TRUE(tree.empty());
-//   tree.insert(5);
-//   ASSERT_EQ(tree.print_tree(true), "5 (0,0) ");
-//   // fails
-//   ASSERT_FALSE(tree.empty());
-// }
+TEST(BasicAssertions, InsertTest) {
+  tree::Tree tree;
+  ASSERT_TRUE(tree.empty());
+  tree.insert(5);
+  ASSERT_EQ(tree.print_tree(true), "5 (0,0) ");
+  ASSERT_FALSE(tree.empty());
+}
 
-// // Test find.
-// TEST(FindTreeTest, BasicAssertions) {
-//   tree::Tree tree;
-//   tree::Node *root = tree.get_root();
-//   ASSERT_FALSE(tree.find(5));
-//   tree.insert(5);
-//   ASSERT_TRUE(tree.find(5));
-//   ASSERT_FALSE(tree.find(2));
-// }
+TEST(BasicAssertions, FindTreeTest) {
+  tree::Tree tree;
+  tree::Node *root = tree.get_root();
+  ASSERT_FALSE(tree.find(5));
+  tree.insert(5);
+  ASSERT_TRUE(tree.find(5));
+  ASSERT_FALSE(tree.find(2));
+}
 
-// // Test is_balanced.
-// TEST(IsBalancedTreeTest, BasicAssertions) {
-//   tree::Tree tree;
-//   tree.insert(5);
-//   tree::Node *root = tree.get_root();
-//   ASSERT_TRUE(tree.is_balanced());
-// }
+TEST(BasicAssertions, IsAVLTest) {
+  tree::Tree tree;
+  ASSERT_TRUE(tree.is_avl());
+  tree.insert(1);
+  ASSERT_TRUE(tree.is_avl());
+}
 
-// // Test is_balanced.
-// TEST(IsBalancedTreeTest2, BasicAssertions) {
-//   tree::Tree tree;
-//   tree.insert(5);
-//   tree.insert(4);
-//   tree::Node *root = tree.get_root();
-//   ASSERT_TRUE(tree.is_balanced());
-// }
+TEST(BasicAssertions, IsBalancedTreeTest) {
+  tree::Tree tree;
+  tree.insert(5);
+  tree::Node *root = tree.get_root();
+  ASSERT_TRUE(tree.is_balanced());
+}
 
-// // Test is_balanced.
-// TEST(IsBalancedTreeTest3, BasicAssertions) {
-//   tree::Tree tree;
-//   tree.insert(5);
-//   tree.insert(4);
-//   tree.insert(1);
-//   tree::Node *root = tree.get_root();
-//   ASSERT_TRUE(tree.is_balanced());
-// }
+TEST(BasicAssertions, IsBalancedTreeTest2) {
+  tree::Tree tree;
+  tree.insert(5);
+  tree.insert(4);
+  tree::Node *root = tree.get_root();
+  ASSERT_TRUE(tree.is_balanced());
+}
 
-// // // Test is_balanced.
-// TEST(IsBalancedTreeTest4, BasicAssertions) {
-//   tree::Tree tree;
-//   tree.insert(6);
-//   tree.insert(4);
-//   tree.insert(5);
-//   tree::Node *root = tree.get_root();
-//   ASSERT_TRUE(tree.is_balanced());
-// }
+TEST(BasicAssertions, IsBalancedTreeTest3) {
+  tree::Tree tree;
+  tree.insert(5);
+  tree.insert(4);
+  tree.insert(1);
+  tree::Node *root = tree.get_root();
+  ASSERT_TRUE(tree.is_balanced());
+}
 
-// // Test AVL insert.
-// TEST(AVLInsertTest, BasicAssertions) {
-//   tree::Tree tree;
-//   tree::Node *root = tree.get_root();
-//   tree.insert(6);
-//   tree.insert(5);
-//   tree.insert(4);
-//   tree.insert(3);
-//   tree.insert(2);
-//   tree.insert(1);
-//   ASSERT_TRUE(tree.is_balanced());
-// }
+TEST(BasicAssertions, IsBalancedTreeTest4) {
+  tree::Tree tree;
+  tree.insert(6);
+  tree.insert(4);
+  tree.insert(5);
+  tree::Node *root = tree.get_root();
+  ASSERT_TRUE(tree.is_balanced());
+}
 
-// // Test AVL insert.
-// TEST(AVLInsertTest2, BasicAssertions) {
-//   tree::Tree tree;
-//   tree::Node *root = tree.get_root();
-//   tree.insert(6);
-//   tree.insert(5);
-//   tree.insert(4);
-//   ASSERT_TRUE(tree.is_balanced());
-// }
+TEST(BasicAssertions, InsertTest2) {
+  tree::Tree tree;
+  tree::Node *root = tree.get_root();
+  tree.insert(6);
+  tree.insert(5);
+  tree.insert(4);
+  tree.insert(3);
+  tree.insert(2);
+  tree.insert(1);
+  ASSERT_TRUE(tree.is_balanced());
+}
 
-// // Test print.
-// TEST(PrintTreeTest, BasicAssertions) {
-//   tree::Tree tree;
-//   tree::Node *root = tree.get_root();
-//   tree.insert(5);
-//   ASSERT_EQ(tree.print_tree(true), "5 (0,0) ");
-// }
+TEST(BasicAssertions, InsertTest3) {
+  tree::Tree tree;
+  tree::Node *root = tree.get_root();
+  tree.insert(6);
+  tree.insert(5);
+  tree.insert(4);
+  ASSERT_TRUE(tree.is_balanced());
+}
 
-// // Test print.
-// TEST(PrintTreeTest2, BasicAssertions) {
-//   tree::Tree tree;
-//   tree::Node *root = tree.get_root();
-//   tree.insert(5);
-//   tree.insert(5);
-//   ASSERT_EQ(tree.print_tree(true), "5 (0,0) ");
-// }
+TEST(BasicAssertions, PrintTreeTest) {
+  tree::Tree tree;
+  tree::Node *root = tree.get_root();
+  tree.insert(5);
+  ASSERT_EQ(tree.print_tree(true), "5 (0,0) ");
+}
 
-// // Test print.
-// TEST(PrintTreeTest3, BasicAssertions) {
-//   tree::Tree tree;
-//   tree::Node *root = tree.get_root();
-//   tree.insert(5);
-//   tree.insert(3);
-//   tree.insert(6);
-//   ASSERT_EQ(tree.print_tree(true), "5 (0,0) \n3 (5,0) 6 (5,0) ");
-// }
+TEST(BasicAssertions, PrintTreeTest2) {
+  tree::Tree tree;
+  tree::Node *root = tree.get_root();
+  tree.insert(5);
+  tree.insert(5);
+  ASSERT_EQ(tree.print_tree(true), "5 (0,0) ");
+}
 
-// // Test AVL insert.
-// TEST(AVLPrintInsertTest, BasicAssertions) {
-//   tree::Tree tree;
-//   tree.insert(7);
-//   tree.insert(6);
-//   tree.insert(5);
-//   tree.insert(4);
-//   tree.insert(3);
-//   tree.insert(2);
-//   tree.insert(1);
-//   ASSERT_EQ(tree.print_tree(true),
-//             "4 (0,0) \n2 (4,0) 6 (4,0) \n1 (2,0) 3 (2,0) 5 (6,0) 7 (6,0) ");
-// }
+TEST(BasicAssertions, PrintTreeTest3) {
+  tree::Tree tree;
+  tree::Node *root = tree.get_root();
+  tree.insert(5);
+  tree.insert(3);
+  tree.insert(6);
+  ASSERT_EQ(tree.print_tree(true), "5 (0,0) \n3 (5,0) 6 (5,0) ");
+}
 
-// Test AVL insert.
-TEST(AVLPrintInsertTest2, BasicAssertions) {
+TEST(BasicAssertions, PrintInsertTest) {
+  tree::Tree tree;
+  tree.insert(7);
+  tree.insert(6);
+  tree.insert(5);
+  tree.insert(4);
+  tree.insert(3);
+  tree.insert(2);
+  tree.insert(1);
+  ASSERT_EQ(tree.print_tree(true),
+            "4 (0,0) \n2 (4,0) 6 (4,0) \n1 (2,0) 3 (2,0) 5 (6,0) 7 (6,0) ");
+}
+
+TEST(BasicAssertions, InsertLeftLeftTest) {
+  tree::Tree tree;
+  tree.insert(3);
+  tree.insert(2);
+  tree.insert(1);
+  ASSERT_EQ(tree.print_tree(true), "2 (0,0) \n1 (2,0) 3 (2,0) ");
+  ASSERT_TRUE(tree.is_avl());
+}
+
+TEST(BasicAssertions, InsertRightRightTest) {
+  tree::Tree tree;
+  tree.insert(1);
+  tree.insert(2);
+  tree.insert(3);
+  ASSERT_EQ(tree.print_tree(true), "2 (0,0) \n1 (2,0) 3 (2,0) ");
+  ASSERT_TRUE(tree.is_avl());
+}
+
+TEST(BasicAssertions, InsertLeftRightTest) {
+  tree::Tree tree;
+  tree.insert(3);
+  tree.insert(1);
+  tree.insert(2);
+  ASSERT_EQ(tree.print_tree(true), "2 (0,0) \n1 (2,0) 3 (2,0) ");
+  ASSERT_TRUE(tree.is_avl());
+}
+
+TEST(BasicAssertions, InsertRightLeftTest) {
+  tree::Tree tree;
+  tree.insert(3);
+  tree.insert(1);
+  tree.insert(2);
+  ASSERT_EQ(tree.print_tree(true), "2 (0,0) \n1 (2,0) 3 (2,0) ");
+  ASSERT_TRUE(tree.is_avl());
+}
+
+TEST(BasicAssertions, RemoveEmptyTest) {
+  tree::Tree tree;
+  tree.insert(30);
+  tree.remove(20);
+  ASSERT_FALSE(tree.empty());
+  tree.remove(30);
+  ASSERT_TRUE(tree.empty());
+}
+
+TEST(BasicAssertions, RemoveLeftLeftTest) {
+  tree::Tree tree;
+  tree.insert(20);
+  tree.insert(10);
+  tree.insert(30);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(25);
+  tree.insert(2);
+  tree.insert(7);
+  tree.insert(12);
+  tree.insert(17);
+  ASSERT_TRUE(tree.find(5));
+  ASSERT_FALSE(tree.find(3));
+  ASSERT_TRUE(tree.find(25));
+  ASSERT_EQ(tree.print_tree(true),
+            "20 (0,1) \n10 (20,0) 30 (20,1) \n5 (10,0) 15 (10,0) 25 (30,0) "
+            "\n2 (5,0) 7 (5,0) 12 (15,0) 17 (15,0) ");
+  tree.remove(25);
+  ASSERT_FALSE(tree.find(25));
+  ASSERT_EQ(tree.print_tree(true),
+            "10 (0,-1) \n5 (10,0) 20 (10,1) \n2 (5,0) 7 (5,0) 15 (20,0) 30 "
+            "(20,0) \n12 (15,0) 17 (15,0) ");
+}
+
+TEST(BasicAssertions, RemoveRightRightTest) {
   tree::Tree tree;
   tree.insert(44);
   tree.insert(17);
@@ -154,5 +216,24 @@ TEST(AVLPrintInsertTest2, BasicAssertions) {
       "(78,0) \n48 (50,0) 54 (50,0) ");
 }
 
-// Test AVL insert.
-// TEST(AVLPrintRemoveTest, BasicAssertions) { tree::Tree tree; }
+TEST(BasicAssertions, RemoveLeftRightTest) {
+  tree::Tree tree;
+  tree.insert(3);
+  tree.insert(1);
+  tree.insert(4);
+  tree.insert(2);
+  ASSERT_EQ(tree.print_tree(true), "3 (0,1) \n1 (3,-1) 4 (3,0) \n2 (1,0) ");
+  ASSERT_TRUE(tree.remove(4));
+  //  ASSERT_EQ(tree.print_tree(true), "2 (0,0) \n1 (2,0) 3 (2,0) ");
+}
+
+// TEST(BasicAssertions, RemoveRightLeftTest) {
+//   tree::Tree tree;
+//   tree.insert(2);
+//   tree.insert(1);
+//   tree.insert(4);
+//   tree.insert(3);
+//   ASSERT_EQ(tree.print_tree(true), "2 (0,-1) \n1 (2,0) 4 (2,1) \n3 (4,0) ");
+//   ASSERT_TRUE(tree.remove(1));
+//   ASSERT_EQ(tree.print_tree(true), "3 (0,0) \n2 (3,0) 4 (3,0) ");
+// }
