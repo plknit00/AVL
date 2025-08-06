@@ -57,9 +57,9 @@ Node *Tree::find(int value) {
 
 bool Tree::insert(int value) {
   Node *result = insert(root, value);
-  if (result == nullptr) {
-    return false;
-  }
+  // if (result == nullptr) {
+  //   return false;
+  // }
   root = result;
   return true;
 }
@@ -73,7 +73,7 @@ Node *Tree::insert(Node *node, int value) {
   } else if (value > node->value) {
     node->right = insert(node->right, value);
   } else {
-    return nullptr;
+    return node;
   }
   node->height = get_height(node);
   int balance_factor = get_balance_factor(node);
@@ -95,7 +95,7 @@ Node *Tree::insert(Node *node, int value) {
 }
 
 bool Tree::remove(int value) {
-  Node *result = insert(root, value);
+  Node *result = remove(root, value);
   if (root == nullptr) {
     return false;
   }
@@ -115,19 +115,19 @@ Node *Tree::remove(Node *node, int value) {
   } else if (value > node->value) {
     node->right = remove(node->right, value);
   } else {
-    // make sure parent pointer to this is null? and height dec
     delete node;
+    return nullptr;
   }
   node->height = get_height(node);
   int balance_factor = get_balance_factor(node);
-  if (balance_factor > 1) {
+  if (balance_factor < -1) {
     if (value < node->left->value) {
       return right_left(node);
     } else {
       return right_right(node);
     }
   }
-  if (balance_factor < -1) {
+  if (balance_factor > 1) {
     if (value > node->right->value) {
       return left_right(node);
     } else {
