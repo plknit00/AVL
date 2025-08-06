@@ -260,12 +260,34 @@ TEST(BasicAssertions, RemoveRightRightTestBig) {
       "(78,0) \n48 (50,0) 54 (50,0) ");
 }
 
-// TEST(BasicAssertions, RemoveLeftRightTestBig) {
-//   tree::Tree tree;
-//   tree.insert(4);
-//   ASSERT_TRUE(tree.is_avl());
-//   ASSERT_EQ(tree.print_tree(true), " ");
-// }
+TEST(BasicAssertions, RemoveLeftRightTestBig) {
+  tree::Tree tree;
+  tree.insert(30);
+  tree.insert(15);
+  tree.insert(40);
+  tree.insert(10);
+  tree.insert(22);
+  tree.insert(35);
+  tree.insert(45);
+  tree.insert(20);
+  tree.insert(25);
+  ASSERT_TRUE(tree.is_avl());
+  ASSERT_EQ(
+      tree.print_tree(true),
+      "30 (0,1) \n15 (30,-1) 40 (30,0) \n10 (15,0) 22 (15,0) 35 (40,0) 45 "
+      "(40,0) \n20 (22,0) 25 (22,0) ");
+  ASSERT_TRUE(tree.remove(40));
+  ASSERT_TRUE(tree.is_avl());
+  ASSERT_EQ(tree.print_tree(true),
+            "30 (0,1) \n15 (30,-1) 45 (30,1) \n10 (15,0) "
+            "22 (15,0) 35 (45,0) \n20 (22,0) 25 (22,0) ");
+  // ASSERT_TRUE(tree.remove(45));
+  // ASSERT_TRUE(tree.is_avl());
+  // ASSERT_EQ(tree.print_tree(true),
+  //           "22 (0,0) \n15 (22,0) 30 (22,0) \n10 (15,0) 20 (15,0) 25 (30,0)
+  //           35 "
+  //           "(30,0) ");
+}
 
 // TEST(BasicAssertions, RemoveRightLeftTestBig) {
 //   tree::Tree tree;
@@ -319,9 +341,16 @@ TEST(BasicAssertions, RemoveMiddleEltTestBig) {
   tree.insert(55);
   tree.insert(65);
   tree.insert(75);
+  ASSERT_EQ(tree.print_tree(true),
+            "40 (0,0) \n20 (40,0) 60 (40,0) \n10 (20,0) 30 (20,0) 50 (60,0) 70 "
+            "(60,0) \n5 (10,0) 15 (10,0) 25 (30,0) 35 (30,0) 45 (50,0) 55 "
+            "(50,0) 65 (70,0) 75 (70,0) ");
   tree.remove(60);
   ASSERT_TRUE(tree.is_avl());
-  // ASSERT_EQ(tree.print_tree(true), " ");
+  ASSERT_EQ(tree.print_tree(true),
+            "40 (0,0) \n20 (40,0) 65 (40,0) \n10 (20,0) 30 (20,0) 50 (65,0) 70 "
+            "(65,-1) \n5 (10,0) 15 (10,0) 25 (30,0) 35 (30,0) 45 (50,0) 55 "
+            "(50,0) 75 (70,0) ");
 }
 
 // TEST(BasicAssertions, RemoveMiddleEltLLTestBig) {

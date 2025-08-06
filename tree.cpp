@@ -119,6 +119,7 @@ Node *Tree::delete_node(Node *node) {
   } else if ((right != nullptr) && (left != nullptr)) {
     Node *new_root = find_inorder_successor(right);
     node->value = new_root->value;
+    // ********** errorrrrrrrr lineeeeeee **********
     right = remove(right, new_root->value);
     return node;
   }
