@@ -59,6 +59,7 @@ Node *Tree::find(int value) {
 }
 
 bool Tree::insert(int value) {
+  // return false if value already exists in tree
   Node *result = insert(root, value);
   // if (result == nullptr) {
   //   return false;
@@ -81,7 +82,6 @@ Node *Tree::insert(Node *node, int value) {
   node->height = get_height(node);
   int balance_factor = get_balance_factor(node);
   if (balance_factor > 1) {
-    // does this value always exist?
     if (value < node->left->value) {
       return left_left(node);
     } else {
@@ -89,7 +89,6 @@ Node *Tree::insert(Node *node, int value) {
     }
   }
   if (balance_factor < -1) {
-    // does this value always exist?
     if (value > node->right->value) {
       return right_right(node);
     } else {
@@ -100,15 +99,16 @@ Node *Tree::insert(Node *node, int value) {
 }
 
 bool Tree::remove(int value) {
+  // return false if value isnt found in tree
   Node *result = remove(root, value);
-  if (root == nullptr) {
-    return false;
-  }
+  // if (root == nullptr) {
+  //   return false;
+  // }
   root = result;
   return true;
 }
 
-Node *Tree::delete_node(Node *node, int value) {
+Node *Tree::delete_node(Node *node) {
   Node *left = node->left;
   Node *right = node->right;
   Node *result = nullptr;
@@ -117,12 +117,21 @@ Node *Tree::delete_node(Node *node, int value) {
   } else if ((right == nullptr) && (left != nullptr)) {
     result = left;
   } else if ((right != nullptr) && (left != nullptr)) {
-    // do something about keeping l and r sub trees
-    // update heights of nodes
+    Node *new_root = find_inorder_successor(right);
+    node->value = new_root->value;
+    right = remove(right, new_root->value);
+    return node;
   }
-  // delete vs free???
   delete node;
   return result;
+}
+
+Node *Tree::find_inorder_successor(Node *node) {
+  Node *curr_node = node;
+  while (curr_node->left != nullptr) {
+    curr_node = curr_node->left;
+  }
+  return curr_node;
 }
 
 Node *Tree::remove(Node *node, int value) {
@@ -134,7 +143,7 @@ Node *Tree::remove(Node *node, int value) {
   } else if (value > node->value) {
     node->right = remove(node->right, value);
   } else {
-    return delete_node(node, value);
+    return delete_node(node);
   }
   node->height = get_height(node);
   int balance_factor = get_balance_factor(node);

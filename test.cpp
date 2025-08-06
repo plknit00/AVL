@@ -302,6 +302,28 @@ TEST(BasicAssertions, RemoveRightRightTestBig) {
 //   ASSERT_EQ(tree.print_tree(true), " ");
 // }
 
+TEST(BasicAssertions, RemoveMiddleEltTestBig) {
+  tree::Tree tree;
+  tree.insert(40);
+  tree.insert(20);
+  tree.insert(60);
+  tree.insert(10);
+  tree.insert(30);
+  tree.insert(50);
+  tree.insert(70);
+  tree.insert(5);
+  tree.insert(15);
+  tree.insert(25);
+  tree.insert(35);
+  tree.insert(45);
+  tree.insert(55);
+  tree.insert(65);
+  tree.insert(75);
+  tree.remove(60);
+  ASSERT_TRUE(tree.is_avl());
+  // ASSERT_EQ(tree.print_tree(true), " ");
+}
+
 // TEST(BasicAssertions, RemoveMiddleEltLLTestBig) {
 //     tree::Tree tree;
 //   tree.insert(4);

@@ -28,6 +28,8 @@ public:
   // add a value to the tree, if it is not duplicate
   bool insert(int value);
 
+  Node *find_inorder_successor(Node *node);
+
   // remove a value from the tree, if it exists
   bool remove(int value);
 
@@ -56,7 +58,7 @@ private:
 
   Node *insert(Node *node, int value);
 
-  Node *delete_node(Node *node, int value);
+  Node *delete_node(Node *node);
 
   Node *remove(Node *node, int value);
 };
