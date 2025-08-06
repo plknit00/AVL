@@ -169,7 +169,51 @@ TEST(BasicAssertions, RemoveEmptyTest) {
   ASSERT_TRUE(tree.empty());
 }
 
+TEST(BasicAssertions, RemoveLeftRightTest) {
+  tree::Tree tree;
+  tree.insert(3);
+  tree.insert(1);
+  tree.insert(4);
+  tree.insert(2);
+  ASSERT_EQ(tree.print_tree(true), "3 (0,1) \n1 (3,-1) 4 (3,0) \n2 (1,0) ");
+  ASSERT_TRUE(tree.remove(4));
+  ASSERT_EQ(tree.print_tree(true), "2 (0,0) \n1 (2,0) 3 (2,0) ");
+}
+
+TEST(BasicAssertions, RemoveRightLeftTest) {
+  tree::Tree tree;
+  tree.insert(2);
+  tree.insert(1);
+  tree.insert(4);
+  tree.insert(3);
+  ASSERT_EQ(tree.print_tree(true), "2 (0,-1) \n1 (2,0) 4 (2,1) \n3 (4,0) ");
+  ASSERT_TRUE(tree.remove(1));
+  ASSERT_EQ(tree.print_tree(true), "3 (0,0) \n2 (3,0) 4 (3,0) ");
+}
+
 TEST(BasicAssertions, RemoveLeftLeftTest) {
+  tree::Tree tree;
+  tree.insert(3);
+  tree.insert(2);
+  tree.insert(4);
+  tree.insert(1);
+  ASSERT_EQ(tree.print_tree(true), "3 (0,1) \n2 (3,1) 4 (3,0) \n1 (2,0) ");
+  ASSERT_TRUE(tree.remove(4));
+  ASSERT_EQ(tree.print_tree(true), "2 (0,0) \n1 (2,0) 3 (2,0) ");
+}
+
+TEST(BasicAssertions, RemoveRightRightTest) {
+  tree::Tree tree;
+  tree.insert(2);
+  tree.insert(1);
+  tree.insert(3);
+  tree.insert(4);
+  ASSERT_EQ(tree.print_tree(true), "2 (0,-1) \n1 (2,0) 3 (2,-1) \n4 (3,0) ");
+  ASSERT_TRUE(tree.remove(1));
+  ASSERT_EQ(tree.print_tree(true), "3 (0,0) \n2 (3,0) 4 (3,0) ");
+}
+
+TEST(BasicAssertions, RemoveLeftLeftTestBig) {
   tree::Tree tree;
   tree.insert(20);
   tree.insert(10);
@@ -194,7 +238,7 @@ TEST(BasicAssertions, RemoveLeftLeftTest) {
             "(20,0) \n12 (15,0) 17 (15,0) ");
 }
 
-TEST(BasicAssertions, RemoveRightRightTest) {
+TEST(BasicAssertions, RemoveRightRightTestBig) {
   tree::Tree tree;
   tree.insert(44);
   tree.insert(17);
@@ -216,24 +260,72 @@ TEST(BasicAssertions, RemoveRightRightTest) {
       "(78,0) \n48 (50,0) 54 (50,0) ");
 }
 
-TEST(BasicAssertions, RemoveLeftRightTest) {
-  tree::Tree tree;
-  tree.insert(3);
-  tree.insert(1);
-  tree.insert(4);
-  tree.insert(2);
-  ASSERT_EQ(tree.print_tree(true), "3 (0,1) \n1 (3,-1) 4 (3,0) \n2 (1,0) ");
-  ASSERT_TRUE(tree.remove(4));
-  //  ASSERT_EQ(tree.print_tree(true), "2 (0,0) \n1 (2,0) 3 (2,0) ");
-}
-
-// TEST(BasicAssertions, RemoveRightLeftTest) {
+// TEST(BasicAssertions, RemoveLeftRightTestBig) {
 //   tree::Tree tree;
-//   tree.insert(2);
-//   tree.insert(1);
 //   tree.insert(4);
-//   tree.insert(3);
-//   ASSERT_EQ(tree.print_tree(true), "2 (0,-1) \n1 (2,0) 4 (2,1) \n3 (4,0) ");
-//   ASSERT_TRUE(tree.remove(1));
-//   ASSERT_EQ(tree.print_tree(true), "3 (0,0) \n2 (3,0) 4 (3,0) ");
+//   ASSERT_TRUE(tree.is_avl());
+//   ASSERT_EQ(tree.print_tree(true), " ");
+// }
+
+// TEST(BasicAssertions, RemoveRightLeftTestBig) {
+//   tree::Tree tree;
+//   tree.insert(4);
+//   ASSERT_TRUE(tree.is_avl());
+//   ASSERT_EQ(tree.print_tree(true), " ");
+// }
+
+// TEST(BasicAssertions, InsertLeftRightTestBig) {
+//   tree::Tree tree;
+//   tree.insert(4);
+//   ASSERT_TRUE(tree.is_avl());
+//   ASSERT_EQ(tree.print_tree(true), " ");
+// }
+
+// TEST(BasicAssertions, InsertRightLeftTestBig) {
+//     tree::Tree tree;
+//   tree.insert(4);
+//   ASSERT_TRUE(tree.is_avl());
+//   ASSERT_EQ(tree.print_tree(true), " ");
+// }
+
+// TEST(BasicAssertions, InsertLeftLeftTestBig) {
+//     tree::Tree tree;
+//   tree.insert(4);
+//   ASSERT_TRUE(tree.is_avl());
+//   ASSERT_EQ(tree.print_tree(true), " ");
+// }
+
+// TEST(BasicAssertions, InsertRightRightTestBig) {
+//     tree::Tree tree;
+//   tree.insert(4);
+//   ASSERT_TRUE(tree.is_avl());
+//   ASSERT_EQ(tree.print_tree(true), " ");
+// }
+
+// TEST(BasicAssertions, RemoveMiddleEltLLTestBig) {
+//     tree::Tree tree;
+//   tree.insert(4);
+//   ASSERT_TRUE(tree.is_avl());
+//   ASSERT_EQ(tree.print_tree(true), " ");
+// }
+
+// TEST(BasicAssertions, RemoveMiddleEltLRTestBig) {
+//     tree::Tree tree;
+//   tree.insert(4);
+//   ASSERT_TRUE(tree.is_avl());
+//   ASSERT_EQ(tree.print_tree(true), " ");
+// }
+
+// TEST(BasicAssertions, RemoveMiddleEltRLTestBig) {
+//     tree::Tree tree;
+//   tree.insert(4);
+//   ASSERT_TRUE(tree.is_avl());
+//   ASSERT_EQ(tree.print_tree(true), " ");
+// }
+
+// TEST(BasicAssertions, RemoveMiddleEltRRTestBig) {
+//     tree::Tree tree;
+//   tree.insert(4);
+//   ASSERT_TRUE(tree.is_avl());
+//   ASSERT_EQ(tree.print_tree(true), " ");
 // }

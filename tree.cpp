@@ -26,6 +26,9 @@ int Tree::get_height(Node *node) {
 }
 
 int Tree::get_balance_factor(Node *node) {
+  if (node == nullptr) {
+    return 0;
+  }
   int left_height = 0;
   int right_height = 0;
   if (node->left != nullptr) {
@@ -78,6 +81,7 @@ Node *Tree::insert(Node *node, int value) {
   node->height = get_height(node);
   int balance_factor = get_balance_factor(node);
   if (balance_factor > 1) {
+    // does this value always exist?
     if (value < node->left->value) {
       return left_left(node);
     } else {
@@ -85,6 +89,7 @@ Node *Tree::insert(Node *node, int value) {
     }
   }
   if (balance_factor < -1) {
+    // does this value always exist?
     if (value > node->right->value) {
       return right_right(node);
     } else {
@@ -103,35 +108,48 @@ bool Tree::remove(int value) {
   return true;
 }
 
+Node *Tree::delete_node(Node *node, int value) {
+  Node *left = node->left;
+  Node *right = node->right;
+  Node *result = nullptr;
+  if ((left == nullptr) && (right != nullptr)) {
+    result = right;
+  } else if ((right == nullptr) && (left != nullptr)) {
+    result = left;
+  } else if ((right != nullptr) && (left != nullptr)) {
+    // do something about keeping l and r sub trees
+    // update heights of nodes
+  }
+  // delete vs free???
+  delete node;
+  return result;
+}
+
 Node *Tree::remove(Node *node, int value) {
   if (node == nullptr) {
     return node;
-  }
-  if (node == nullptr) {
-    return new Node({.value = value});
   }
   if (value < node->value) {
     node->left = remove(node->left, value);
   } else if (value > node->value) {
     node->right = remove(node->right, value);
   } else {
-    delete node;
-    return nullptr;
+    return delete_node(node, value);
   }
   node->height = get_height(node);
   int balance_factor = get_balance_factor(node);
-  if (balance_factor < -1) {
-    if (value < node->left->value) {
-      return right_left(node);
-    } else {
-      return right_right(node);
-    }
-  }
   if (balance_factor > 1) {
-    if (value > node->right->value) {
+    if (get_balance_factor(node->left) < 0) {
       return left_right(node);
     } else {
       return left_left(node);
+    }
+  }
+  if (balance_factor < -1) {
+    if (get_balance_factor(node->right) > 0) {
+      return right_left(node);
+    } else {
+      return right_right(node);
     }
   }
   return node;

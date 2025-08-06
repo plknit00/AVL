@@ -56,6 +56,8 @@ private:
 
   Node *insert(Node *node, int value);
 
+  Node *delete_node(Node *node, int value);
+
   Node *remove(Node *node, int value);
 };
 
